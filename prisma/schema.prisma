@@ -59,8 +59,8 @@ model Company_SupportProgram {
 
   company          Company        @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId        Int
-  supportProgram   SupportProgram @relation(fields: [supportProgramID], references: [id], onDelete: Cascade)
-  supportProgramID Int
+  supportProgram   SupportProgram @relation(fields: [supportProgramId], references: [id], onDelete: Cascade)
+  supportProgramId Int
 
   @@map("company_supportProgram")
 }

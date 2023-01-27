@@ -1,5 +1,5 @@
 import { User } from '@prisma/client';
-import { CreateRequestDto } from './dtos/create-request.dto';
+import { UserCreateRequestDto } from './dtos/user-create-request.dto';
 import { UsersService } from './users.service';
 import {
   Req,
@@ -14,7 +14,7 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CommonResponseDto } from 'src/common/dtos/common-response.dto';
-import { CreateResponseDto } from './dtos/create-response.dto';
+import { UserCreateResponseDto } from './dtos/user-create-response.dto';
 import { JwtAuthGuard } from '../auth/jwt/jwt.guard';
 
 @ApiTags('users')
@@ -25,10 +25,10 @@ export class UsersController {
   @Post()
   @HttpCode(201)
   @ApiOperation({ summary: '회원 가입' })
-  @ApiBody({ type: CreateRequestDto })
+  @ApiBody({ type: UserCreateRequestDto })
   async create(
-    @Body() dto: CreateRequestDto,
-  ): Promise<CommonResponseDto<CreateResponseDto>> {
+    @Body() dto: UserCreateRequestDto,
+  ): Promise<CommonResponseDto<UserCreateResponseDto>> {
     return await this.usersService.create(dto);
   }
 
@@ -36,7 +36,7 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('access-token')
   @ApiOperation({ summary: '내 정보 조회' })
-  async getMe(@Req() req): Promise<CommonResponseDto<CreateResponseDto>> {
+  async getMe(@Req() req): Promise<CommonResponseDto<UserCreateResponseDto>> {
     return await this.usersService.getMe(req.user as User);
   }
 
@@ -44,10 +44,10 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('access-token')
   @ApiOperation({ summary: '내 정보 수정' })
-  @ApiBody({ type: CreateRequestDto })
+  @ApiBody({ type: UserCreateRequestDto })
   async updateMe(
     @Req() req,
-    @Body() dto: CreateRequestDto,
+    @Body() dto: UserCreateRequestDto,
   ): Promise<CommonResponseDto> {
     return await this.usersService.updateMe(req.user as User, dto);
   }

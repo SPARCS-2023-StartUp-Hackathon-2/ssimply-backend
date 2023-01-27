@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { PrismaService } from './config/database/prisma.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -29,8 +30,8 @@ async function bootstrap() {
   const appConfig = app.get(ConfigService);
 
   // Config for Prisma
-  // const prismaService = app.get(PrismaService);
-  // await prismaService.enableShutdownHooks(app);
+  const prismaService = app.get(PrismaService);
+  await prismaService.enableShutdownHooks(app);
 
   // Config for Swagger
   const swaggerConfig = new DocumentBuilder()

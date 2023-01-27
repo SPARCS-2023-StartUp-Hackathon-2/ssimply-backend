@@ -3,9 +3,16 @@ import { AppConfigModule } from './config/app/config.module';
 import { UsersModule } from './modules/users/users.module';
 import { CompaniesModule } from './modules/companies/companies.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { SupportprogramsModule } from './modules/supportprograms/supportprograms.module';
 
 @Module({
-  imports: [AppConfigModule, UsersModule, CompaniesModule, AuthModule],
+  imports: [
+    AppConfigModule,
+    UsersModule,
+    CompaniesModule,
+    AuthModule,
+    SupportprogramsModule,
+  ],
   controllers: [],
   providers: [],
 })

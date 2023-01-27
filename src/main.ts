@@ -37,9 +37,22 @@ async function bootstrap() {
     .setTitle('SSimply')
     .setDescription('The API description for ssimply-backend')
     .setVersion('1.0')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        name: 'JWT',
+        in: 'header',
+      },
+      'access-token',
+    )
     .build();
   const document = SwaggerModule.createDocument(app, swaggerConfig);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('api', app, document, {
+    swaggerOptions: {
+      persistAuthorization: true,
+    },
+  });
 
   console.log(`==== Running as ${process.env.APP_ENV} ====`);
   await app.listen(appConfig.get('app.port'));

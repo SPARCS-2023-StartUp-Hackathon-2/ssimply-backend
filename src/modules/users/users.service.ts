@@ -1,3 +1,4 @@
+import { User } from '@prisma/client';
 import { PrismaService } from './../../config/database/prisma.service';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CommonResponseDto } from 'src/common/dtos/common-response.dto';
@@ -31,6 +32,37 @@ export class UsersService {
         position: dto.position,
       },
     });
-    return new CommonResponseDto(new CreateResponseDto(user), 'success');
+    return new CommonResponseDto(new CreateResponseDto(user));
+  }
+
+  async getMe(user: User): Promise<CommonResponseDto<CreateResponseDto>> {
+    return new CommonResponseDto(new CreateResponseDto(user));
+  }
+
+  async updateMe(
+    user: User,
+    dto: CreateRequestDto,
+  ): Promise<CommonResponseDto> {
+    await this.prismaService.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        email: dto.email,
+        password: await bcrypt.hash(dto.password, SALT_OR_ROUNDS),
+        name: dto.name,
+        position: dto.position,
+      },
+    });
+    return new CommonResponseDto();
+  }
+
+  async deleteMe(user: User): Promise<CommonResponseDto> {
+    await this.prismaService.user.delete({
+      where: {
+        id: user.id,
+      },
+    });
+    return new CommonResponseDto();
   }
 }

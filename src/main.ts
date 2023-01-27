@@ -41,7 +41,7 @@ async function bootstrap() {
       {
         type: 'http',
         scheme: 'bearer',
-        name: 'JWT',
+        bearerFormat: 'JWT',
         in: 'header',
       },
       'access-token',

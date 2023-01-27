@@ -11,7 +11,7 @@ import configuration from './configuration';
       load: [configuration],
       ...(process.env.APP_ENV !== 'production' && { envFilePath: '.env' }),
     }),
-    // PrismaModule,
+    PrismaModule,
   ],
 })
 export class AppConfigModule {}

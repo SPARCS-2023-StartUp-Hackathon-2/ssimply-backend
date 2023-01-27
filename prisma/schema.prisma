@@ -6,6 +6,208 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "mysql"
+  url      = env("DB_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  password  String   @db.VarChar(255)
+  name      String   @db.VarChar(50)
+  position  String   @db.VarChar(50)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  profile   File?   @relation(fields: [profileId], references: [uuid], onDelete: SetNull)
+  profileId String? @unique
+
+  company Company?
+
+  @@map("user")
+}
+
+model Company {
+  id        Int         @id @default(autoincrement())
+  name      String      @db.VarChar(50)
+  item      String?     @db.Text
+  type      CompanyType
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @default(now()) @updatedAt
+
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int  @unique
+
+  company_supportPrograms Company_SupportProgram[]
+  coopCompanies           CoopCompany[]
+  salaries                Salary[]
+  employees               Employee[]
+
+  @@map("company")
+}
+
+enum CompanyType {
+  PRE
+  INDIVIDUAL
+  COPERATION
+}
+
+model Company_SupportProgram {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  company          Company        @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId        Int
+  supportProgram   SupportProgram @relation(fields: [supportProgramID], references: [id], onDelete: Cascade)
+  supportProgramID Int
+
+  @@map("company_supportProgram")
+}
+
+model SupportProgram {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  company_supportPrograms Company_SupportProgram[]
+
+  @@map("supportProgram")
+}
+
+model CoopCompany {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(50)
+  email     String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId Int
+
+  coopcompany_files CoopCompany_File[]
+
+  @@map("coopCompany")
+}
+
+model CoopCompany_File {
+  id        Int                  @id @default(autoincrement())
+  type      CoopCompany_FileType
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @default(now()) @updatedAt
+
+  coopCompany   CoopCompany @relation(fields: [coopCompanyId], references: [id], onDelete: Cascade)
+  coopCompanyId Int
+  file          File        @relation(fields: [fileId], references: [uuid], onDelete: Cascade)
+  fileId        String      @unique @db.VarChar(255)
+
+  @@map("coopCompany_file")
+}
+
+enum CoopCompany_FileType {
+  RECEIPT
+  ESTIMATE
+  REPORT
+  IDCARD
+  ACCOUNT
+  CONTRACT
+}
+
+model Salary {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(255)
+  email     String   @db.VarChar(255)
+  enteredAt DateTime
+  yearMonth Int
+  note      String?  @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId Int
+
+  salary_employees Salary_Employee[]
+  salary_files     Salary_File[]
+
+  @@map("salary")
+}
+
+model Salary_File {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  salary   Salary @relation(fields: [salaryId], references: [id], onDelete: Cascade)
+  salaryId Int
+  file     File   @relation(fields: [fileId], references: [uuid], onDelete: Cascade)
+  fileId   String @unique @db.VarChar(255)
+
+  @@map("salary_file")
+}
+
+model Salary_Employee {
+  id        Int      @id @default(autoincrement())
+  basePay   Int
+  mealPay   Int
+  isFirst   Boolean
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  salary     Salary   @relation(fields: [salaryId], references: [id], onDelete: Cascade)
+  salaryId   Int
+  employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  employeeId Int
+
+  @@map("salary_employee")
+}
+
+model Employee {
+  id         Int          @id @default(autoincrement())
+  employeNum Int
+  name       String       @db.VarChar(50)
+  position   String       @db.VarChar(50)
+  type       EmployeeType
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @default(now()) @updatedAt
+
+  company         Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId       Int
+  idCardFile      File?   @relation(name: "idCardFile", fields: [idCardFileId], references: [uuid], onDelete: SetNull)
+  idCardFileId    String? @unique @db.VarChar(255)
+  accountFile     File?   @relation(name: "accountFile", fields: [accountFileId], references: [uuid], onDelete: SetNull)
+  accountFileId   String? @unique @db.VarChar(255)
+  applyFile       File?   @relation(name: "applyFile", fields: [applyFileId], references: [uuid], onDelete: SetNull)
+  applyFileId     String? @unique @db.VarChar(255)
+  insuranceFile   File?   @relation(name: "insuranceFile", fields: [insuranceFileId], references: [uuid], onDelete: SetNull)
+  insuranceFileId String? @unique @db.VarChar(255)
+  incomeFile      File?   @relation(name: "incomeFile", fields: [incomeFileId], references: [uuid], onDelete: SetNull)
+  incomeFileId    String? @unique @db.VarChar(255)
+
+  salary_employees Salary_Employee[]
+
+  @@map("employee")
+}
+
+enum EmployeeType {
+  PERMENTANT
+  TEMPORARY
+}
+
+model File {
+  uuid      String   @id @db.VarChar(255)
+  name      String   @db.VarChar(255)
+  mimeType  String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  user             User?
+  coopCompany_file CoopCompany_File?
+  salary_files     Salary_File[]
+  idCardFile       Employee?         @relation("idCardFile")
+  accountFile      Employee?         @relation("accountFile")
+  applyFile        Employee?         @relation("applyFile")
+  insuranceFile    Employee?         @relation("insuranceFile")
+  incomeFile       Employee?         @relation("incomeFile")
+
+  @@map("file")
 }

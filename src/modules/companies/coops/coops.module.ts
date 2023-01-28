@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { EmailModule } from 'src/modules/email/email.module';
+import { FilesService } from 'src/modules/files/files.service';
 import { CoopsController } from './coops.controller';
 import { CoopsService } from './coops.service';
 
 @Module({
-  imports: [EmailModule],
   controllers: [CoopsController],
-  providers: [CoopsService, JwtService]
+  providers: [CoopsService, FilesService, JwtService],
 })
 export class CoopsModule {}

@@ -1,8 +1,8 @@
 interface coopCompany {
-    id: number;
-    name: string;
-    createdAt: Date;
-    updatedAt: Date;
+  id: number;
+  name: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export class CoopGetListResponseDto {
@@ -10,7 +10,7 @@ export class CoopGetListResponseDto {
 
   constructor(coops: coopCompany[]) {
     this.coops = coops.map((coop) =>
-      Object({ 
+      Object({
         id: coop.id,
         name: coop.name,
         createdAt: coop.createdAt,

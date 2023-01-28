@@ -13,7 +13,7 @@ import * as path from 'path';
       isGlobal: true,
       cache: true,
       load: [configuration],
-      ...(process.env.APP_ENV !== 'production' && { envFilePath: '.env' }),
+      envFilePath: '.env',
     }),
     PrismaModule,
     FileConfigModule,

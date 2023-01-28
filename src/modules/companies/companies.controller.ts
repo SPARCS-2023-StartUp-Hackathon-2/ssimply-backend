@@ -1,3 +1,4 @@
+import { CompanyExistGuard } from './companies.guard';
 import { CompaniesService } from './companies.service';
 import {
   Body,
@@ -12,7 +13,7 @@ import {
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt/jwt.guard';
 import { CompanyCreateRequestDto } from './dtos/company-create-request.dto';
-import { User } from '@prisma/client';
+import { Company, User } from '@prisma/client';
 import { CommonResponseDto } from 'src/common/dtos/common-response.dto';
 import { CompanyCreateResponseDto } from './dtos/company-create-response.dto';
 import { CompanyGetResponseDto } from './dtos/company-get-response.dto';
@@ -37,14 +38,16 @@ export class CompaniesController {
 
   @Get('me')
   @UseGuards(JwtAuthGuard)
+  @UseGuards(CompanyExistGuard)
   @ApiBearerAuth('access-token')
   @ApiOperation({ summary: '회사 정보 조회' })
   async get(@Req() req): Promise<CommonResponseDto<CompanyGetResponseDto>> {
-    return await this.companiesService.get(req.user as User);
+    return await this.companiesService.get(req.company as Company);
   }
 
   @Put('me')
   @UseGuards(JwtAuthGuard)
+  @UseGuards(CompanyExistGuard)
   @ApiBearerAuth('access-token')
   @ApiOperation({ summary: '회사 정보 수정' })
   @ApiBody({ type: CompanyCreateRequestDto })
@@ -52,6 +55,6 @@ export class CompaniesController {
     @Req() req,
     @Body() dto: CompanyCreateRequestDto,
   ): Promise<CommonResponseDto> {
-    return await this.companiesService.update(req.user as User, dto);
+    return await this.companiesService.update(req.company as Company, dto);
   }
 }

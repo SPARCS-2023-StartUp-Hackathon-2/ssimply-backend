@@ -3,7 +3,7 @@ import { CompanyCreateResponseDto } from './dtos/company-create-response.dto';
 import { PrismaService } from './../../config/database/prisma.service';
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { CompanyCreateRequestDto } from './dtos/company-create-request.dto';
-import { User } from '@prisma/client';
+import { Company, User } from '@prisma/client';
 import { CommonResponseDto } from 'src/common/dtos/common-response.dto';
 
 @Injectable()
@@ -42,14 +42,9 @@ export class CompaniesService {
     return new CommonResponseDto(new CompanyCreateResponseDto(company));
   }
 
-  async get(user: User): Promise<CommonResponseDto<CompanyGetResponseDto>> {
-    const company = await this.prismaService.company.findUnique({
-      where: {
-        userId: user.id,
-      },
-    });
-    if (!company) throw new BadRequestException('company is not created');
-
+  async get(
+    company: Company,
+  ): Promise<CommonResponseDto<CompanyGetResponseDto>> {
     const supportPrograms = (
       await this.prismaService.company_SupportProgram.findMany({
         where: {
@@ -77,16 +72,9 @@ export class CompaniesService {
   }
 
   async update(
-    user: User,
+    company: Company,
     dto: CompanyCreateRequestDto,
   ): Promise<CommonResponseDto> {
-    const company = await this.prismaService.company.findUnique({
-      where: {
-        userId: user.id,
-      },
-    });
-    if (!company) throw new BadRequestException('company is not created');
-
     await this.prismaService.company.update({
       where: {
         id: company.id,
@@ -95,7 +83,6 @@ export class CompaniesService {
         name: dto.name,
         item: dto.item,
         type: dto.type,
-        userId: user.id,
       },
     });
 

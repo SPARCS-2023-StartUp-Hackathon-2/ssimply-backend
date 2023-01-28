@@ -18,6 +18,7 @@ import { Company } from '@prisma/client';
 import { ParseIntPipe } from '@nestjs/common/pipes';
 import { Delete } from '@nestjs/common/decorators';
 import { CompanyExistGuard } from '../../companies/companies.guard';
+import { CoopUpdateRequestDto } from './dtos/coop-update-request.dto';
 
 @ApiTags('coops')
 @Controller('companies/me/coops')
@@ -61,11 +62,11 @@ export class CoopsController {
   @UseGuards(CompanyExistGuard)
   @ApiBearerAuth('access-token')
   @ApiOperation({ summary: '거래처 정보 수정' })
-  @ApiBody({ type: CoopCreateRequestDto })
+  @ApiBody({ type: CoopUpdateRequestDto })
   async update(
     @Req() req,
     @Param('id', ParseIntPipe) id: number,
-    @Body() dto: CoopCreateRequestDto,
+    @Body() dto: CoopUpdateRequestDto,
   ): Promise<CommonResponseDto> {
     return await this.coopsService.update(req.company as Company, id, dto);
   }

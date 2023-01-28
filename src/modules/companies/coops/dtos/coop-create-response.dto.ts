@@ -10,7 +10,7 @@ export class CoopCreateResponseDto {
   constructor(coop: CoopCompany) {
     this.id = coop.id;
     this.name = coop.name;
-    this.email = coop.email; 
+    this.email = coop.email;
     this.createdAt = coop.createdAt;
     this.updatedAt = coop.updatedAt;
   }

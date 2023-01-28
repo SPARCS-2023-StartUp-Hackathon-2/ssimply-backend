@@ -16,23 +16,23 @@ import * as path from 'path';
     }),
     PrismaModule,
     MailerModule.forRootAsync({
-        imports: [ConfigModule],
-        inject: [ConfigService],
-        useFactory: (config: ConfigService) => {
-          console.log('===== write [.env] by config: network====');
-          console.log(config.get('email'));
-          return {
-            ...config.get('email'),
-            template: {
-              dir: path.join(__dirname, '../../templates/'),
-              adapter: new EjsAdapter(),
-              options: {
-                strict: true,
-              },
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => {
+        console.log('===== write [.env] by config: network====');
+        console.log(config.get('email'));
+        return {
+          ...config.get('email'),
+          template: {
+            dir: path.join(__dirname, '../../templates/'),
+            adapter: new EjsAdapter(),
+            options: {
+              strict: true,
             },
-          };
-        },
-      }),
+          },
+        };
+      },
+    }),
   ],
 })
 export class AppConfigModule {}

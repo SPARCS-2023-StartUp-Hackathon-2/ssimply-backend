@@ -5,7 +5,7 @@ import { Injectable } from '@nestjs/common';
 export class EmailService {
   constructor(private readonly mailerService: MailerService) {}
 
-  async _send(
+  async send(
     tos: string[],
     subject: string,
     templateName: string,
@@ -19,18 +19,5 @@ export class EmailService {
     });
 
     return true;
-  }
-
-  async coopEmail(to: string) {
-    await this._send([to], '제목', 'coopCompany.ejs', {
-      email: to,
-      datetime: new Date(),
-    });
-  }
-
-  async empolyeeEmail(to: string) {
-    await this._send([to], '제목', 'empolyees.ejs', {
-      email: to,
-    });
   }
 }

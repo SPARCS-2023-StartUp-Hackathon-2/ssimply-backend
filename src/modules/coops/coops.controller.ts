@@ -11,13 +11,13 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../../auth/jwt/jwt.guard';
+import { JwtAuthGuard } from '../auth/jwt/jwt.guard';
 import { CoopCreateRequestDto } from './dtos/coop-create-request.dto';
 import { CommonResponseDto } from 'src/common/dtos/common-response.dto';
 import { Company } from '@prisma/client';
 import { ParseIntPipe } from '@nestjs/common/pipes';
 import { Delete } from '@nestjs/common/decorators';
-import { CompanyExistGuard } from '../companies.guard';
+import { CompanyExistGuard } from '../companies/companies.guard';
 
 @ApiTags('coops')
 @Controller('companies/me/coops')

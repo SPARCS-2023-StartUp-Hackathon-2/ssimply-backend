@@ -47,46 +47,41 @@ export class CoopsService {
         return new CommonResponseDto(new CoopGetListResponseDto(coop));
     }
 
-    // async get(company: Company, id: number): Promise<CommonResponseDto<CoopGetResponseDto>> {
-    //     const coop = await this.prismaService.coopCompany.findUnique({
-    //         where: {
-    //             id: id,
-    //         },
-    //         select: {
-    //             id: true,
-    //             name: true,
-    //             email: true, 
-    //         }
-    //     });
-    //     if (!coop) throw new BadRequestException('cooperaton company is not created');
+    async get(company: Company, id: number): Promise<CommonResponseDto<CoopGetResponseDto>> {
+        const coop = await this.prismaService.coopCompany.findUnique({
+            where: { id: id, },
+            select: {
+                id: true,
+                name: true,
+                email: true, 
+            }
+        });
+        if (!coop) throw new BadRequestException('cooperaton company is not created');
 
-    //     const files = (
-    //         await this.prismaService.coopCompany_File.findMany({
-    //         where: {
-    //             coopCompanyId: company.id,
-    //         },
-    //         select: {
-    //             file: {
-    //             select: {
-    //                 // mimeType: true,
-    //                 createdAt: true,
-    //                 updatedAt: true,
-                    
-    //             },
-    //             },
-    //         },
-    //         })
-    //     ).map((coopCompany_File) =>
-    //         Object({
-    //         id: company_supportProgram.supportProgram.id,
-    //         name: company_supportProgram.supportProgram.name,
-    //         }),
-    //     );
+        const files = (
+            await this.prismaService.coopCompany_File.findMany({
+                where: {
+                    coopCompanyId: company.id,
+                },
+                select: {
+                    file: {
+                    select: {
+                        mimeType: true,
+                        createdAt: true,
+                        updatedAt: true,
+                    },
+                    },
+                },
+            })
+        ).map((coopCompany_File) =>
+        Object({
+            id: company_supportProgram.supportProgram.id,
+            name: company_supportProgram.supportProgram.name,
+        }),
+        );
 
-    //     return new CommonResponseDto(
-    //         new CoopGetResponseDto(coop, files),
-    //     );
-    // }
+        return new CommonResponseDto(new CoopGetResponseDto(coop, files));
+    }
 
     async update(
         company: Company,

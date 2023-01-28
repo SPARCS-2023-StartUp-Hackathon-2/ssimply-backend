@@ -1,0 +1,21 @@
+name: deploy
+
+on:
+  push:
+    branches: ['main']
+
+jobs:
+  buildndeploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH Remote Commands
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd ~/ssimply-backend
+            git pull https://${{ secrets.HUB_USERNAME }}:${{ secrets.HUB_PASSWORD }}@github.com/SPARCS-2023-StartUp-Hackathon-2/ssimply-backend.git
+            npm run build
+            pm2 restart backend

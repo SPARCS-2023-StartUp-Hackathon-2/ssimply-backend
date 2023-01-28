@@ -28,6 +28,22 @@ export class FileConfigService {
     return result;
   }
 
+  async uploadByBuffer(buffer: Buffer, name: string) {
+    let result: FileUploadResponseDto;
+    try {
+      result = await this.s3
+        .upload({
+          Bucket: process.env.S3_BUCKET_NAME,
+          Body: buffer,
+          Key: `${Date.now()}-${name}`,
+        })
+        .promise();
+    } catch (e) {
+      throw new InternalServerErrorException('failed to upload file');
+    }
+    return result;
+  }
+
   async getURL(key: string): Promise<string> {
     return await this.s3.getSignedUrlPromise('getObject', {
       Bucket: process.env.S3_BUCKET_NAME,
@@ -46,5 +62,20 @@ export class FileConfigService {
     } catch (e) {
       throw new InternalServerErrorException('failed to delete file');
     }
+  }
+
+  async download(key: string) {
+    let result;
+    try {
+      result = await this.s3
+        .getObject({
+          Bucket: process.env.S3_BUCKET_NAME,
+          Key: key,
+        })
+        .promise();
+    } catch (e) {
+      throw new InternalServerErrorException('cannot to download file');
+    }
+    return result;
   }
 }

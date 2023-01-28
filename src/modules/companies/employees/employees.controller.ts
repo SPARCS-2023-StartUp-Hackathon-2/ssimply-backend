@@ -35,7 +35,11 @@ export class EmployeesController {
     @Req() req,
     @Body() dto: EmployeeCreateRequestDto,
   ): Promise<CommonResponseDto> {
-    return await this.employeesService.create(req.company as Company, req.user as User, dto);
+    return await this.employeesService.create(
+      req.company as Company,
+      req.user as User,
+      dto,
+    );
   }
 
   @Get()

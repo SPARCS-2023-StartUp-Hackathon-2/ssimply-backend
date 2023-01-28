@@ -31,10 +31,7 @@ export class SalariesController {
   @ApiBearerAuth('access-token')
   @ApiOperation({ summary: '인건비 정보 생성' })
   @ApiBody({ type: SalaryCreateRequestDto })
-  async create(
-    @Req() req,
-    @Body() dto: SalaryCreateRequestDto,
-  ): Promise<CommonResponseDto<SalaryCreateRequestDto>> {
+  async create(@Req() req, @Body() dto: SalaryCreateRequestDto) {
     return await this.salariesService.create(req.company as Company, dto);
   }
 

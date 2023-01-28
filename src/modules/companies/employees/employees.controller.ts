@@ -14,7 +14,7 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/modules/auth/jwt/jwt.guard';
-import { Company } from '@prisma/client';
+import { Company, User } from '@prisma/client';
 import { CompanyExistGuard } from '../companies.guard';
 import { CommonResponseDto } from 'src/common/dtos/common-response.dto';
 import { EmployeeViewDto } from './dtos/employee-view.dto';
@@ -36,8 +36,12 @@ export class EmployeesController {
   async create(
     @Req() req,
     @Body() dto: EmployeeCreateRequestDto,
-  ): Promise<CommonResponseDto<EmployeeCreateResponseDto>> {
-    return await this.employeesService.create(req.company as Company, dto);
+  ): Promise<CommonResponseDto> {
+    return await this.employeesService.create(
+      req.company as Company,
+      req.user as User,
+      dto,
+    );
   }
 
   @Get()

@@ -10,7 +10,7 @@ import { SalaryCreateRequestDto } from './dtos/salary-create-request.dto';
 import { SalaryGetResponseDto } from './dtos/salary-get-response.dto';
 import { SalaryGetListResponseDto } from './dtos/salary-getlist-response.dto';
 import * as imgToPDF from 'image-to-pdf';
-import { merge } from 'merge-pdf-buffers';
+import { pdfMerger } from 'src/common/utils/pdfMerger';
 
 @Injectable()
 export class SalariesService {
@@ -99,7 +99,7 @@ export class SalariesService {
       }
     }
     const idCardMergedUpload = await this.fileConfigService.uploadByBuffer(
-      (await merge(idCardBuf)) as Buffer,
+      (await pdfMerger(idCardBuf)) as Buffer,
       '신분증_최초신청.pdf',
     );
     const idCardMergedFile = await this.prismaService.file.create({
@@ -135,7 +135,7 @@ export class SalariesService {
       }
     }
     const accountMergedUpload = await this.fileConfigService.uploadByBuffer(
-      (await merge(accountBuf)) as Buffer,
+      (await pdfMerger(accountBuf)) as Buffer,
       '통장사본_최초신청.pdf',
     );
     const accountMergedFile = await this.prismaService.file.create({
@@ -166,7 +166,7 @@ export class SalariesService {
       }
     }
     const applyMergedUpload = await this.fileConfigService.uploadByBuffer(
-      (await merge(idCardBuf)) as Buffer,
+      (await pdfMerger(idCardBuf)) as Buffer,
       '이력서_최초신청.pdf',
     );
     const applyMergedFile = await this.prismaService.file.create({
@@ -199,7 +199,7 @@ export class SalariesService {
       }
     }
     const incomeMergedUpload = await this.fileConfigService.uploadByBuffer(
-      (await merge(idCardBuf)) as Buffer,
+      (await pdfMerger(idCardBuf)) as Buffer,
       '4대보험가입신청서_최초신청.pdf',
     );
     const incomeMergedFile = await this.prismaService.file.create({

@@ -173,7 +173,7 @@ body.bgf {
                                                                                             style="text-align: center;">
                                                                                             <span
                                                                                                 class="link-edited stb-bold"
-                                                                                                style="font-weight: bold; font-size: 18px;"><%=name%>님</span></div>
+                                                                                                style="font-weight: bold; font-size: 18px;"><%= locals.receive_name %> 님</span></div>
                                                                                         <div
                                                                                             style="text-align: center;">
                                                                                             <span
@@ -255,19 +255,20 @@ body.bgf {
                                                                                 <tr>
                                                                                     <td
                                                                                         style="padding:15px 15px 15px 15px;font-size:16px;line-height:1.7;word-break:break-word;color:#000000;border:0;font-family:AppleSDGothic, apple sd gothic neo, noto sans korean, noto sans korean regular, noto sans cjk kr, noto sans cjk, nanum gothic, malgun gothic, dotum, arial, helvetica, MS Gothic, sans-serif!important;;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;width:100%;">
-                                                                                        <div><%=receive_name%>님, 안녕하세요.</div>
+                                                                                        <div><%= locals.receive_name %> 님, 안녕하세요.</div>
                                                                                         <div>
-                                                                                            <%=companyName%>
-                                                                                                <%=position%>
-                                                                                                    <%=name%>입니다.
+                                                                                            <%= locals.companyName %>
+                                                                                                <%= locals.position %>
+                                                                                                    <%= locals.name %>입니다.
                                                                                         </div>
                                                                                         <div>인건비 지급을 위한 서류를 요청드리니,</div>
-                                                                                        <div>아래 버튼을 통해 빠른 시일 내로 업로드해주시면
+                                                                                        <div>아래 링크를 통해 빠른 시일 내로 업로드해 주시면
                                                                                             감사하겠습니다.</div>
                                                                                         <div><br></div>
                                                                                         <div>그럼, 오늘도 좋은 하루 되시길 바랍니다.
                                                                                         </div>
                                                                                         <div>감사합니다.</div>
+                                                                                        <div><%= locals.link %></div>
                                                                                     </td>
                                                                                 </tr>
                                                                             </tbody>
@@ -314,7 +315,7 @@ body.bgf {
                                                                                                     <td style="background:#1665FF;background-color:#1665FF;border-radius:500px;text-align:center;padding:0;"
                                                                                                         valign="top"
                                                                                                         align="center">
-                                                                                                        <a href=<%- link -%>>
+                                                                                                        <a href=<%= locals.link %>>
                                                                                                             style="font-size:16px;display:inline-block;color:#ffffff;text-decoration:none;outline:0px;font-family:AppleSDGothic, apple sd gothic neo, noto sans korean, noto sans korean regular, noto sans cjk kr, noto sans cjk, nanum gothic, malgun gothic, dotum, arial, helvetica, MS Gothic, sans-serif;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;text-align:center;padding:19px 20px;box-sizing:border-box;vertical-align:top;mso-line-height-rule:exactly;line-height:1;"
                                                                                                             target="_blank">서류
                                                                                                             업로드하기</a>

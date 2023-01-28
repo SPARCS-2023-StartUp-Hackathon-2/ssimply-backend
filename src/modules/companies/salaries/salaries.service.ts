@@ -30,12 +30,12 @@ export class SalariesService {
     });
 
     const salary_employees = await this.prismaService.salary_Employee.findMany({
-        where: { salaryId: id, },
-    });
+        where: { salary: salary, },
+      });
   
     const salaryFiles: Salary_File[] =
     await await this.prismaService.salary_File.findMany({
-        where: { salaryId: id, },
+        where: { salary: salary, },
     });
     
     const files: FileResponseDto[] = [];

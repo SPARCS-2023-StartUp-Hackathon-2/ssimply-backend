@@ -10,7 +10,7 @@ import {
   Req,
   Body,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/modules/auth/jwt/jwt.guard';
 import { Company } from '@prisma/client';
 import { CompanyExistGuard } from '../companies.guard';
@@ -25,6 +25,7 @@ export class EmployeesController {
   @UseGuards(CompanyExistGuard)
   @ApiBearerAuth('access-token')
   @ApiOperation({ summary: '직원 정보 입력' })
+  @ApiBody({ type: EmployeeCreateRequestDto })
   async create(@Req() req, @Body() dto: EmployeeCreateRequestDto) {
     return await this.employeesService.create(req.company as Company, dto);
   }

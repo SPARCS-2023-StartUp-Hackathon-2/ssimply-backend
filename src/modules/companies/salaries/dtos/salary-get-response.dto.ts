@@ -1,11 +1,6 @@
 import { FileResponseDto } from './../../../files/dtos/files-response.dto';
 import { Salary } from '@prisma/client';
-
-interface employees {
-    employeeId: number;
-	basePay: number;
-	mealPay: number;
-}
+import { SalaryEmployeeInterface } from '../salaries.interface.dto';
 
 export class SalaryGetResponseDto {
   id: number;
@@ -14,19 +9,21 @@ export class SalaryGetResponseDto {
   note: string | null;
   createdAt: Date;
   updatedAt: Date;
-
-  employees: employees[];
+  employees: SalaryEmployeeInterface[];
   files: FileResponseDto[];
   batchfile: FileResponseDto;
 
-  constructor(salary: Salary, employees: employees[], files: FileResponseDto[]) {
+  constructor(
+    salary: Salary,
+    employees: SalaryEmployeeInterface[],
+    files: FileResponseDto[],
+  ) {
     this.id = salary.id;
     this.name = salary.name;
     this.yearMonth = salary.yearMonth;
     this.note = salary.note;
     this.createdAt = salary.createdAt;
     this.updatedAt = salary.updatedAt;
-
     this.employees = employees;
     this.files = files;
   }

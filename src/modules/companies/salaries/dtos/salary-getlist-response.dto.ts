@@ -1,12 +1,12 @@
 import { Salary } from '@prisma/client';
 
 interface SalaryList {
-    id: number;
-    name: string;
-    yearMonth: number;
-    note: string | null;
-    createdAt: Date;
-    updatedAt: Date;
+  id: number;
+  name: string;
+  yearMonth: number;
+  note: string | null;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export class SalaryGetListResponseDto {

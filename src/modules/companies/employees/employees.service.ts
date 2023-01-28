@@ -42,14 +42,19 @@ export class EmployeesService {
       },
     });
 
-    this.emailService.send([dto.email], '인건비 지급 관련 서류 요청', 'employee.ejs', {
+    this.emailService.send(
+      [dto.email],
+      '인건비 지급 관련 서류 요청',
+      'employee.ejs',
+      {
         receive_name: dto.name,
         companyName: company.name,
         position: dto.position,
         name: user.name,
         email: dto.email,
-        link: "www.naver.com",
-    });
+        link: 'www.naver.com',
+      },
+    );
     return new CommonResponseDto(new EmployeeCreateResponseDto(employee, {}));
   }
 

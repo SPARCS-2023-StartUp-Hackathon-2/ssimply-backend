@@ -2,9 +2,9 @@ import { Salary } from '@prisma/client';
 import { FileResponseDto } from 'src/modules/files/dtos/files-response.dto';
 
 interface Salaries {
-    employeeId: number;
-	basePay: number;
-	mealPay: number;
+  employeeId: number;
+  basePay: number;
+  mealPay: number;
 }
 
 export class SalaryCreateResponseDto {

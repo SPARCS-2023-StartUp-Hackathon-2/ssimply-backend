@@ -1,11 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsArray,
-  IsDate,
-  IsNotEmpty,
-  IsNumber,
-  IsString,
-} from 'class-validator';
+import { IsArray, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { SalaryEmployeeInterface } from '../salaries.interface.dto';
 
 export class SalaryCreateRequestDto {
   @ApiProperty()
@@ -21,4 +16,8 @@ export class SalaryCreateRequestDto {
   @ApiProperty()
   @IsString()
   note: string;
+
+  @ApiProperty()
+  @IsArray()
+  salaries: SalaryEmployeeInterface[];
 }

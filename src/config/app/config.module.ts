@@ -3,6 +3,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PrismaModule } from '../database/prisma.module';
+import { FileConfigModule } from '../file/file.module';
 import configuration from './configuration';
 import * as path from 'path';
 
@@ -15,12 +16,11 @@ import * as path from 'path';
       ...(process.env.APP_ENV !== 'production' && { envFilePath: '.env' }),
     }),
     PrismaModule,
+    FileConfigModule,
     MailerModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (config: ConfigService) => {
-        console.log('===== write [.env] by config: network====');
-        console.log(config.get('email'));
         return {
           ...config.get('email'),
           template: {

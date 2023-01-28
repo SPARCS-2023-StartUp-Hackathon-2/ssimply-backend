@@ -9,11 +9,16 @@ import {
   UseGuards,
   Req,
   Body,
+  Param,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/modules/auth/jwt/jwt.guard';
 import { Company } from '@prisma/client';
 import { CompanyExistGuard } from '../companies.guard';
+import { CommonResponseDto } from 'src/common/dtos/common-response.dto';
+import { EmployeeViewDto } from './dtos/employee-view.dto';
+import { EmployeeCreateResponseDto } from './dtos/employee-create-response.dto';
+import { EmployeeUpdateRequestDto } from './dtos/employee-update-request.dto';
 
 @ApiTags('employees')
 @Controller('me/employees')
@@ -26,31 +31,51 @@ export class EmployeesController {
   @ApiBearerAuth('access-token')
   @ApiOperation({ summary: '직원 정보 입력' })
   @ApiBody({ type: EmployeeCreateRequestDto })
-  async create(@Req() req, @Body() dto: EmployeeCreateRequestDto) {
+  async create(
+    @Req() req,
+    @Body() dto: EmployeeCreateRequestDto,
+  ): Promise<CommonResponseDto> {
     return await this.employeesService.create(req.company as Company, dto);
   }
 
   @Get()
   @UseGuards(JwtAuthGuard)
+  @UseGuards(CompanyExistGuard)
   @ApiBearerAuth('access-token')
   @ApiOperation({ summary: '직원 목록 조회' })
-  getList() {}
+  async getList(@Req() req): Promise<CommonResponseDto<EmployeeViewDto[]>> {
+    return await this.employeesService.getList(req.company as Company);
+  }
 
-  @Get()
+  @Get(':id')
   @UseGuards(JwtAuthGuard)
+  @UseGuards(CompanyExistGuard)
   @ApiBearerAuth('access-token')
   @ApiOperation({ summary: '직원 정보 조회' })
-  get() {}
+  async get(
+    @Param('id') id: number,
+  ): Promise<CommonResponseDto<EmployeeCreateResponseDto>> {
+    return await this.employeesService.get(id);
+  }
 
-  @Put()
+  @Put(':id')
   @UseGuards(JwtAuthGuard)
+  @UseGuards(CompanyExistGuard)
   @ApiBearerAuth('access-token')
   @ApiOperation({ summary: '직원 정보 수정' })
-  update() {}
+  async update(
+    @Param('id') id: number,
+    @Body() dto: EmployeeUpdateRequestDto,
+  ): Promise<CommonResponseDto> {
+    return await this.employeesService.update(id, dto);
+  }
 
-  @Delete()
+  @Delete(':id')
   @UseGuards(JwtAuthGuard)
+  @UseGuards(CompanyExistGuard)
   @ApiBearerAuth('access-token')
   @ApiOperation({ summary: '직원 삭제' })
-  delete() {}
+  async delete(@Param('id') id: number): Promise<CommonResponseDto> {
+    return await this.employeesService.delete(id);
+  }
 }

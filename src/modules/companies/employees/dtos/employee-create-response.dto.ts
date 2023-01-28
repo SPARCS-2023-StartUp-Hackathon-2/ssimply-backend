@@ -1,5 +1,5 @@
 import { Employee, EmployeeType } from '@prisma/client';
-import { FileResponseDto } from '../../coops/dtos/coop-get-response.dto';
+import { FileResponseDto } from 'src/modules/files/dtos/files-response.dto';
 
 export class EmployeeCreateResponseDto {
   id: number;

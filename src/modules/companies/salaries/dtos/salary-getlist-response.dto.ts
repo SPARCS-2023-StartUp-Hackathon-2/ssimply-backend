@@ -1,5 +1,3 @@
-import { Salary } from '@prisma/client';
-
 interface SalaryList {
   id: number;
   name: string;

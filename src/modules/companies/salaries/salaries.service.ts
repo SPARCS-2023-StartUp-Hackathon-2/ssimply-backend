@@ -1,8 +1,8 @@
+import { CommonResponseDto } from './../../../common/dtos/common-response.dto';
 import { stream2buffer } from 'src/common/utils/stream2buffer';
 import { FileConfigService } from './../../../config/file/file.service';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { Company, File, Salary_File } from '@prisma/client';
-import { CommonResponseDto } from 'src/common/dtos/common-response.dto';
 import { PrismaService } from 'src/config/database/prisma.service';
 import { FileResponseDto } from 'src/modules/files/dtos/files-response.dto';
 import { FilesService } from 'src/modules/files/files.service';
@@ -20,7 +20,10 @@ export class SalariesService {
     private readonly fileConfigService: FileConfigService,
   ) {}
 
-  async create(company: Company, dto: SalaryCreateRequestDto) {
+  async create(
+    company: Company,
+    dto: SalaryCreateRequestDto,
+  ): Promise<CommonResponseDto<SalaryGetResponseDto>> {
     const salary = await this.prismaService.salary.create({
       data: {
         name: dto.name,
@@ -223,26 +226,18 @@ export class SalariesService {
   async getList(
     company: Company,
   ): Promise<CommonResponseDto<SalaryGetListResponseDto>> {
-    const salary = await this.prismaService.salary.findMany({
+    const salaries = await this.prismaService.salary.findMany({
       where: {
         companyId: company.id,
       },
-      select: {
-        id: true,
-        name: true,
-        yearMonth: true,
-        note: true,
-        createdAt: true,
-        updatedAt: true,
-      },
     });
 
-    return new CommonResponseDto(new SalaryGetListResponseDto(salary));
+    return new CommonResponseDto(new SalaryGetListResponseDto(salaries));
   }
 
   async get(id: number): Promise<CommonResponseDto<SalaryGetResponseDto>> {
     const salary = await this.prismaService.salary.findUnique({
-      where: { id: id },
+      where: { id },
     });
     if (!salary) throw new BadRequestException('salary is not created');
 
@@ -251,15 +246,13 @@ export class SalariesService {
     });
 
     const salaryFiles: Salary_File[] =
-      await await this.prismaService.salary_File.findMany({
+      await this.prismaService.salary_File.findMany({
         where: { salaryId: id },
       });
     const files: FileResponseDto[] = [];
     for (const salaryFile of salaryFiles) {
       files.push(await this.filesService.get(salaryFile.fileId));
     }
-    // const batchfile: FileResponseDto =
-    //   await this.filesService.get();
 
     return new CommonResponseDto(
       new SalaryGetResponseDto(salary, salary_employees, files),

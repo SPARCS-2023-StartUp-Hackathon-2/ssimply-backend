@@ -31,7 +31,10 @@ export class SalariesController {
   @ApiBearerAuth('access-token')
   @ApiOperation({ summary: '인건비 정보 생성' })
   @ApiBody({ type: SalaryCreateRequestDto })
-  async create(@Req() req, @Body() dto: SalaryCreateRequestDto) {
+  async create(
+    @Req() req,
+    @Body() dto: SalaryCreateRequestDto,
+  ): Promise<CommonResponseDto<SalaryGetResponseDto>> {
     return await this.salariesService.create(req.company as Company, dto);
   }
 
@@ -63,6 +66,6 @@ export class SalariesController {
   @ApiBearerAuth('access-token')
   @ApiOperation({ summary: '인건비 정보 삭제' })
   async delete(@Param('id') id: number): Promise<CommonResponseDto> {
-    return this.salariesService.delete(id);
+    return await this.salariesService.delete(id);
   }
 }

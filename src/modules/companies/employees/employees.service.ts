@@ -3,20 +3,23 @@ import { CommonResponseDto } from 'src/common/dtos/common-response.dto';
 import { EmployeeCreateRequestDto } from './dtos/employee-create-request.dto';
 import { PrismaService } from 'src/config/database/prisma.service';
 import { Injectable, BadRequestException } from '@nestjs/common';
-import { Company } from '@prisma/client';
+import { Company, User } from '@prisma/client';
 import { EmployeeCreateResponseDto } from './dtos/employee-create-response.dto';
 import { FilesService } from 'src/modules/files/files.service';
 import { EmployeeUpdateRequestDto } from './dtos/employee-update-request.dto';
+import { EmailService } from 'src/config/email/email.service';
 
 @Injectable()
 export class EmployeesService {
   constructor(
     private readonly prismaService: PrismaService,
+    private readonly emailService: EmailService,
     private readonly filesService: FilesService,
   ) {}
 
   async create(
     company: Company,
+    user: User,
     dto: EmployeeCreateRequestDto,
   ): Promise<CommonResponseDto> {
     const maxEmployeeNum = (
@@ -39,6 +42,14 @@ export class EmployeesService {
       },
     });
 
+    this.emailService.send([dto.email], '인건비 지급 관련 서류 요청', 'employee.ejs', {
+        receive_name: dto.name,
+        companyName: company.name,
+        position: dto.position,
+        name: user.name,
+        email: dto.email,
+        link: "www.naver.com",
+    });
     return new CommonResponseDto(new EmployeeCreateResponseDto(employee, {}));
   }
 

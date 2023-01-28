@@ -1,19 +1,27 @@
-import { Salary } from "@prisma/client";
+import { Salary } from '@prisma/client';
+
+interface SalaryList {
+    id: number;
+    name: string;
+    yearMonth: number;
+    note: string | null;
+    createdAt: Date;
+    updatedAt: Date;
+}
 
 export class SalaryGetListResponseDto {
-  id: number;
-  name: string;
-  yearMonth: number;
-  note: string | null;
-  createdAt: Date;
-  updatedAt: Date;
+  salaries: SalaryList[];
 
-  constructor(salary: Salary) {
-    this.id = salary.id;
-    this.name = salary.name;
-    this.yearMonth = salary.yearMonth;
-    this.note = salary.note;
-    this.createdAt = salary.createdAt;
-    this.updatedAt = salary.updatedAt;
+  constructor(salaries: SalaryList[]) {
+    this.salaries = salaries.map((salary) =>
+      Object({
+        id: salary.id,
+        name: salary.name,
+        yearMonth: salary.yearMonth,
+        note: salary.note,
+        createdAt: salary.createdAt,
+        updatedAt: salary.updatedAt,
+      }),
+    );
   }
 }

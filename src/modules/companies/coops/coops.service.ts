@@ -2,7 +2,6 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { Company, CoopCompany_File } from '@prisma/client';
 import { CommonResponseDto } from 'src/common/dtos/common-response.dto';
 import { PrismaService } from 'src/config/database/prisma.service';
-import { EmailService } from 'src/config/email/email.service';
 import { FileResponseDto } from 'src/modules/files/dtos/files-response.dto';
 import { FilesService } from 'src/modules/files/files.service';
 import { CoopCreateRequestDto } from './dtos/coop-create-request.dto';
@@ -15,7 +14,6 @@ import { CoopUpdateRequestDto } from './dtos/coop-update-request.dto';
 export class CoopsService {
   constructor(
     private readonly prismaService: PrismaService,
-    private readonly emailService: EmailService,
     private readonly filesService: FilesService,
   ) {}
 

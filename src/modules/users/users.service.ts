@@ -1,3 +1,4 @@
+import { FilesService } from './../files/files.service';
 import { User } from '@prisma/client';
 import { PrismaService } from './../../config/database/prisma.service';
 import { BadRequestException, Injectable } from '@nestjs/common';
@@ -10,7 +11,10 @@ const SALT_OR_ROUNDS = 10;
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly filesService: FilesService,
+  ) {}
 
   async create(
     dto: UserCreateRequestDto,
@@ -30,13 +34,19 @@ export class UsersService {
         password: await bcrypt.hash(dto.password, SALT_OR_ROUNDS),
         name: dto.name,
         position: dto.position,
+        profileId: dto.profileUUID ?? null,
       },
     });
-    return new CommonResponseDto(new UserCreateResponseDto(user));
+    return new CommonResponseDto(new UserCreateResponseDto(user, null));
   }
 
   async getMe(user: User): Promise<CommonResponseDto<UserCreateResponseDto>> {
-    return new CommonResponseDto(new UserCreateResponseDto(user));
+    return new CommonResponseDto(
+      new UserCreateResponseDto(
+        user,
+        user.profileId ? await this.filesService.get(user.profileId) : null,
+      ),
+    );
   }
 
   async updateMe(
@@ -52,6 +62,7 @@ export class UsersService {
         password: await bcrypt.hash(dto.password, SALT_OR_ROUNDS),
         name: dto.name,
         position: dto.position,
+        profileId: dto.profileUUID,
       },
     });
     return new CommonResponseDto();

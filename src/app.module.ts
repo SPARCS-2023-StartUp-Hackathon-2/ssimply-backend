@@ -4,6 +4,7 @@ import { UsersModule } from './modules/users/users.module';
 import { CompaniesModule } from './modules/companies/companies.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { SupportprogramsModule } from './modules/supportprograms/supportprograms.module';
+import { FilesModule } from './modules/files/files.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { SupportprogramsModule } from './modules/supportprograms/supportprograms
     CompaniesModule,
     AuthModule,
     SupportprogramsModule,
+    FilesModule,
   ],
   controllers: [],
   providers: [],

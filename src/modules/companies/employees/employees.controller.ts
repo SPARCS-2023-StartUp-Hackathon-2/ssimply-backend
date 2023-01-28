@@ -10,6 +10,7 @@ import {
   Req,
   Body,
   Param,
+  HttpCode,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/modules/auth/jwt/jwt.guard';
@@ -26,6 +27,7 @@ export class EmployeesController {
   constructor(private readonly employeesService: EmployeesService) {}
 
   @Post()
+  @HttpCode(201)
   @UseGuards(JwtAuthGuard)
   @UseGuards(CompanyExistGuard)
   @ApiBearerAuth('access-token')
@@ -34,7 +36,7 @@ export class EmployeesController {
   async create(
     @Req() req,
     @Body() dto: EmployeeCreateRequestDto,
-  ): Promise<CommonResponseDto> {
+  ): Promise<CommonResponseDto<EmployeeCreateResponseDto>> {
     return await this.employeesService.create(req.company as Company, dto);
   }
 

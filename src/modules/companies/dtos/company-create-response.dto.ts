@@ -1,10 +1,10 @@
-import { Company } from '@prisma/client';
+import { Company, CompanyType } from '@prisma/client';
 
 export class CompanyCreateResponseDto {
   id: number;
   name: string;
   item: string;
-  type: string;
+  type: CompanyType;
   createdAt: Date;
   updatedAt: Date;
 

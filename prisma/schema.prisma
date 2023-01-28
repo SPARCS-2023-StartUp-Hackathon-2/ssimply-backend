@@ -117,8 +117,6 @@ enum CoopCompany_FileType {
 model Salary {
   id        Int      @id @default(autoincrement())
   name      String   @db.VarChar(255)
-  email     String   @db.VarChar(255)
-  enteredAt DateTime
   yearMonth Int
   note      String?  @db.Text
   createdAt DateTime @default(now())

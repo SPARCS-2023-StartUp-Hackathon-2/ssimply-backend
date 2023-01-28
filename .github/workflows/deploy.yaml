@@ -15,6 +15,9 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
             cd ~/ssimply-backend
             git pull https://${{ secrets.HUB_USERNAME }}:${{ secrets.HUB_PASSWORD }}@github.com/SPARCS-2023-StartUp-Hackathon-2/ssimply-backend.git
             npm run build

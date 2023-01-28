@@ -190,7 +190,7 @@ model Employee {
 }
 
 enum EmployeeType {
-  PERMENTANT
+  PERMENANT
   TEMPORARY
 }
 

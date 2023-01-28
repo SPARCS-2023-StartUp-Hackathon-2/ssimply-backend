@@ -31,24 +31,28 @@ export class EmployeesController {
 
   @Get()
   @UseGuards(JwtAuthGuard)
+  @UseGuards(CompanyExistGuard)
   @ApiBearerAuth('access-token')
   @ApiOperation({ summary: '직원 목록 조회' })
   getList() {}
 
   @Get()
   @UseGuards(JwtAuthGuard)
+  @UseGuards(CompanyExistGuard)
   @ApiBearerAuth('access-token')
   @ApiOperation({ summary: '직원 정보 조회' })
   get() {}
 
   @Put()
   @UseGuards(JwtAuthGuard)
+  @UseGuards(CompanyExistGuard)
   @ApiBearerAuth('access-token')
   @ApiOperation({ summary: '직원 정보 수정' })
   update() {}
 
   @Delete()
   @UseGuards(JwtAuthGuard)
+  @UseGuards(CompanyExistGuard)
   @ApiBearerAuth('access-token')
   @ApiOperation({ summary: '직원 삭제' })
   delete() {}

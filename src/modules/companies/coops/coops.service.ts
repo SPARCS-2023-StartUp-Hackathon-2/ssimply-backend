@@ -1,7 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { Company, User } from '@prisma/client';
+import { Company } from '@prisma/client';
 import { CommonResponseDto } from 'src/common/dtos/common-response.dto';
 import { PrismaService } from 'src/config/database/prisma.service';
+import { EmailService } from 'src/modules/email/email.service';
 import { CoopCreateRequestDto } from './dtos/coop-create-request.dto';
 import { CoopCreateResponseDto } from './dtos/coop-create-response.dto';
 import { CoopGetResponseDto } from './dtos/coop-get-response.dto';
@@ -9,8 +10,8 @@ import { CoopGetListResponseDto } from './dtos/coop-getlist-response.dto';
 
 @Injectable()
 export class CoopsService {
-    constructor(private readonly prismaService: PrismaService) {}
-    
+    constructor(private readonly prismaService: PrismaService,
+                private readonly emailService: EmailService) {}
 
     async create(
         company: Company,
@@ -24,6 +25,7 @@ export class CoopsService {
             },
         });
 
+        const emailSuccess = await this.emailService.coopEmail(dto.email);
         return new CommonResponseDto(new CoopCreateResponseDto(coop));
     }
 

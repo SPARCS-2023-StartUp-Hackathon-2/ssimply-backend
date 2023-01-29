@@ -1,73 +1,44 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# [TEAM I] ssimply-backend
+ 
+이 Repository는 "SSimply" 의 웹 백엔드를 담당합니다. 
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+다음과 같은 기능이 포함되어 있습니다. 
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+- 회원가입 및 로그인
+- 회사/직원/거래처 관리
+- 인건비 관련 서류 자동 생성
+- 필수 제출 서류 수집을 위한 메일 발송
 
-## Description
+## 프로젝트에서 사용한 기술 
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+본 Repository는 `pacakge.json` 에 있는 오픈소스 패키지를 사용하였습니다.
 
-## Installation
+또 다음 Code Snippet 이 포함되어 있습니다.
 
-```bash
-$ npm install
-```
+- [JS Modal 만들기](https://www.w3schools.com/howto/howto_css_modals.asp)
+- [JS 쿠키 설정 방법](https://yj-code.tistory.com/7)
 
-## Running the app
 
-```bash
-# development
-$ npm run start
+## Dev Server 실행 방법
 
-# watch mode
-$ npm run start:dev
+1. 본 Repository를 로컬 환경에 Clone 받습니다.
+2. `npm install` 로 필요한 패키지를 설치 합니다.
+3. `.env.example` 을 `.env` 로 복사한 다음, 아래 [환경 변수 및 시크릿] 규약에 따라 작성합니다.
+4. MySQL 8.0 Docker 컨테이너를 실행합니다.
+5. `prisma migrate` 를 이용하여 DB 스키마를 설정해 줍니다.
+6. `npm run start:dev`로 HMR 서버를 실행하여 개발환경을 실행합니다.
 
-# production mode
-$ npm run start:prod
-```
+## Production 배포 방법
 
-## Test
+1. Ubuntu 20.04 환경의 서버를 준비합니다.
+2. 본 Repository를 로컬 환경에 Clone 받습니다.
+3. `docker compose -f=.docker/production-compose.yml up -d` 을 이용하여 실행해 줍니다.
 
-```bash
-# unit tests
-$ npm run test
 
-# e2e tests
-$ npm run test:e2e
+## 환경 변수 및 시크릿
+1. 필요한 환경 변수는 `.env.example` 에 명시되어 있습니다.
+    1. JWT_SECRET 은 18-24자리 이내 a-Z,0-9 로 설정되어야 합니다.
 
-# test coverage
-$ npm run test:cov
-```
 
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+## 기타
+무박 3일의 기적 씸플리 화이팅

@@ -15,8 +15,7 @@
 
 또 다음 Code Snippet 이 포함되어 있습니다.
 
-- [JS Modal 만들기](https://www.w3schools.com/howto/howto_css_modals.asp)
-- [JS 쿠키 설정 방법](https://yj-code.tistory.com/7)
+- [NestJS Malier document](https://nest-modules.github.io/mailer/docs/mailer.html)
 
 
 ## Dev Server 실행 방법

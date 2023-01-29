@@ -7,6 +7,7 @@ import { FileCreateResponseDto } from './dtos/files-create-response.dto';
 import { File } from '@prisma/client';
 import { OccupiedFilePayload } from './occupied-file.payload';
 import { OccupiedCoopType } from './files.enum';
+import { base64encoder } from 'src/common/utils/base64encoder';
 
 @Injectable()
 export class FilesService {
@@ -46,9 +47,7 @@ export class FilesService {
     file: Express.Multer.File,
     hash: string,
   ): Promise<CommonResponseDto> {
-    const payload: OccupiedFilePayload = JSON.parse(
-      Buffer.from(hash, 'base64').toString(),
-    );
+    const payload: OccupiedFilePayload = JSON.parse(base64encoder(hash));
 
     const createdFile = await this.prismaService.file.create({
       data: {

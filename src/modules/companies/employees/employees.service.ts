@@ -1,3 +1,4 @@
+import { base64encoder } from 'src/common/utils/base64encoder';
 import { EmployeeViewDto } from './dtos/employee-view.dto';
 import { CommonResponseDto } from 'src/common/dtos/common-response.dto';
 import { EmployeeCreateRequestDto } from './dtos/employee-create-request.dto';
@@ -52,7 +53,12 @@ export class EmployeesService {
         position: user.position,
         name: user.name,
         email: dto.email,
-        link: 'www.naver.com',
+        link: `${process.env.APP_DOMAIN}/emp/${base64encoder(
+          JSON.stringify({
+            service: 'SALARY',
+            to: employee.id,
+          }),
+        )}`,
       },
     );
     return new CommonResponseDto(new EmployeeCreateResponseDto(employee, {}));

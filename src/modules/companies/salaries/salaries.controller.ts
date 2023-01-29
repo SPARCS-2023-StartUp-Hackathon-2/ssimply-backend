@@ -20,7 +20,7 @@ import { SalaryGetListResponseDto } from './dtos/salary-getlist-response.dto';
 import { SalariesService } from './salaries.service';
 
 @ApiTags('salaries')
-@Controller('me/salaries')
+@Controller('companies/me/salaries')
 export class SalariesController {
   constructor(private readonly salariesService: SalariesService) {}
 

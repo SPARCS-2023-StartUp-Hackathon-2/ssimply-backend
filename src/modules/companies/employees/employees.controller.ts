@@ -22,7 +22,7 @@ import { EmployeeCreateResponseDto } from './dtos/employee-create-response.dto';
 import { EmployeeUpdateRequestDto } from './dtos/employee-update-request.dto';
 
 @ApiTags('employees')
-@Controller('me/employees')
+@Controller('companies/me/employees')
 export class EmployeesController {
   constructor(private readonly employeesService: EmployeesService) {}
 

@@ -1,3 +1,4 @@
+import { WordService } from './word/word.service';
 import { CommonResponseDto } from './../../../common/dtos/common-response.dto';
 import { stream2buffer } from 'src/common/utils/stream2buffer';
 import { FileConfigService } from './../../../config/file/file.service';
@@ -18,6 +19,7 @@ export class SalariesService {
     private readonly prismaService: PrismaService,
     private readonly filesService: FilesService,
     private readonly fileConfigService: FileConfigService,
+    private readonly wordService: WordService,
   ) {}
 
   async create(
@@ -213,12 +215,29 @@ export class SalariesService {
       incomeMergedUpload.Key,
     );
 
+    const salaryDocxBuffer = await this.wordService.docxBuilder(dto, company);
+    const salaryDocxUpload = await this.fileConfigService.uploadByBuffer(
+      salaryDocxBuffer,
+      dto.name + '.docx',
+    );
+    const salaryDocxFile = await this.prismaService.file.create({
+      data: {
+        uuid: salaryDocxUpload.Key,
+        mimeType: 'application/msword',
+        name: salaryDocxUpload.Key,
+      },
+    });
+    const salaryDocxLink = await this.fileConfigService.getURL(
+      salaryDocxUpload.Key,
+    );
+
     return new CommonResponseDto(
       new SalaryGetResponseDto(salary, dto.salaries, [
         new FileResponseDto(idCardMergedFile, idCardMergedLink),
         new FileResponseDto(accountMergedFile, accountMergedLink),
         new FileResponseDto(applyMergedFile, applyMergedLink),
         new FileResponseDto(incomeMergedFile, incomeMergedLink),
+        new FileResponseDto(salaryDocxFile, salaryDocxLink),
       ]),
     );
   }

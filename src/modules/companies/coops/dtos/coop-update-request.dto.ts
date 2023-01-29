@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { CoopCompany_FileType } from '@prisma/client';
-import { IsArray, IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class CoopUpdateRequestDto {
   @ApiProperty()
@@ -10,7 +10,7 @@ export class CoopUpdateRequestDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsString()
+  @IsEmail()
   email: string;
 
   @ApiProperty()
